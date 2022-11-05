@@ -15,12 +15,11 @@ async function getById(id) {
   return result;
 }
 
-async function insert(name) {
-  const [result] = await connection
-    .execute(
-      'INSERT INTO StoreManager.products (name) VALUES (?)',
-      [name],
-    );
+async function insert(product) {
+  const [result] = await connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUES (?)',
+    [product.name],
+  );
   return result.insertId;
 }
 
