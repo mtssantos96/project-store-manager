@@ -19,8 +19,17 @@ async function getById(saleId) {
   return { type: 'NOT_FOUND', message: 'Sale not found' };
 }
 
+async function remove(id) {
+  const sale = await salesModel.getById(id);
+  if (sale && sale.length > 0) {
+    await salesModel.remove(id);
+    return { type: null };
+  }
+  return { type: 'NOT_FOUND', message: 'Sale not found' };
+}
 module.exports = {
   newSaleRegistry,
   getAll,
   getById,
+  remove,
 };

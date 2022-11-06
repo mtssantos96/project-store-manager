@@ -15,7 +15,17 @@ async function getById(req, res) {
   return res.status(200).json(message);
 }
 
+async function remove(req, res) {
+  const { id } = req.params;
+  const { type, message } = await salesService.remove(id);
+  if (type) {
+    return res.status(errorMap.mapError(type)).json({ message });
+  }
+  return res.status(204).end();
+}
+
 module.exports = {
   getAll,
   getById,
+  remove,
 };

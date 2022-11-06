@@ -34,8 +34,17 @@ async function insert(date) {
   return insertId;
 }
 
+async function remove(id) {
+  const [result] = await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?;',
+    [id],
+  );
+  return result;
+}
+
 module.exports = {
   getAll,
   getById,
   insert,
+  remove,
 };
