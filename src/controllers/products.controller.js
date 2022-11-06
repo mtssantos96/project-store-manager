@@ -8,11 +8,11 @@ async function getAll(_req, res) {
 
 async function getById(req, res) {
   const { id } = req.params;
-  const result = await productsService.getById(id);
-  if (!result.message) {
-        return res.status(404).json({ message: 'Product not found' });    
+  const { type, message } = await productsService.getById(id);
+  if (type) {
+        return res.status(errorMap.mapError(type)).json({ message });    
       }
-     return res.status(200).json(result.message);
+     return res.status(200).json(message);
 }
 
 async function addNewProduct(req, res) {

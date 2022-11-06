@@ -1,9 +1,6 @@
-const Joi = require('joi');
 const { productsModel } = require('../models');
 
-const newProductBody = Joi.object({
-  name: Joi.string().min(5).required(),
-});
+const { validateNewProduct } = require('./validations/validateProducts');
 
 async function getAll() {
   const result = await productsModel.getAll();
@@ -11,32 +8,23 @@ async function getAll() {
 }
 
 async function getById(id) {
-  const result = await productsModel.getById(id);
-  return { type: null, message: result };
-}
-
-function validateNewProduct(product) {
-  const { name } = product;
-  if (!name) {
-    return { type: 'MISSING_FIELD', message: '"name" is required' };
+  const product = await productsModel.getById(id);
+  if (product) {
+    return { type: null, message: product };
   }
-  const { error } = newProductBody.validate(product);
-
-  if (error) {
-    return { type: 'INVALID_VALUE', message: error.message };
-  }
+  return { type: 'NOT_FOUND', message: 'Product not found' };
 }
 
 async function addNewProduct(product) {
-  const error = validateNewProduct(product);
+  const error = await validateNewProduct(product);
 
-  if (error) {
+  if (error.type) {
   return error;
   }
 
-  const id = await productsModel.insert(product);
-  const result = await productsModel.getById(id);
-  return { type: null, message: result };
+  const newProductId = await productsModel.insert(product);
+  const newProduct = await productsModel.getById(newProductId);
+  return { type: null, message: newProduct };
 }
 
 module.exports = {
