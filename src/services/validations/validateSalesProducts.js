@@ -10,7 +10,6 @@ function validateNewSale(saleInfo) {
   const { error } = newSaleSchema.validate(saleInfo);
   if (error) {
     const { type, message } = error.details[0];
-    console.log(type);
     return {
       type: type === 'number.min' ? 'INVALID_VALUE' : 'MISSING_FIELD',
       message,

@@ -19,7 +19,21 @@ async function createNewSale(req, res) {
   return res.status(201).json(message);
 }
 
+async function update(req, res) {
+  const { id } = req.params;
+  const saleInfo = req.body;
+  const { type, message } = await salesProductsService.update(
+    id,
+    saleInfo,
+  );
+  if (type) {
+    return res.status(errorMap.mapError(type)).json({ message });
+  }
+  return res.status(200).json(message);
+}
+
 module.exports = {
   getById,
   createNewSale,
+  update,
 };

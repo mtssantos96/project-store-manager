@@ -26,7 +26,6 @@ function validateProductUpdate(productInfo) {
   const { error } = updateProductSchema.validate(productInfo);
   if (error) {
     const { type, message } = error.details[0];
-    console.log(type);
     return {
       type: type === 'string.min' ? 'INVALID_VALUE' : 'MISSING_FIELD',
       message,
