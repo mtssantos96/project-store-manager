@@ -44,9 +44,19 @@ async function update(product) {
   return { type: 'NOT_FOUND', message: 'Product not found' };
 }
 
+async function remove(id) {
+  const product = await productsModel.getById(id);
+  if (product) {
+    await productsModel.remove(id);
+    return { type: null };
+  }
+  return { type: 'NOT_FOUND', message: 'Product not found' };
+}
+
 module.exports = {
   getAll,
   getById,
   addNewProduct,
   update,
+  remove,
 };
