@@ -8,8 +8,10 @@ const {
   invalidId,
   allProductsResponse,
   rightProductBody,
+  wrongProductBody,
   productCreateResponse,
-  productUpdateBody,
+  productId,
+  productUpdateInvalideId,
   productUpdateResponse,
   productSearchNameResponse,
 } = require("../mocks/productsMock");
@@ -71,6 +73,15 @@ describe("Unit tests - products.service", function () {
       expect(result.message).to.deep.equal(productCreateResponse);
     });
 
+    it("update - MISSING_FIELD - 'name' is required", async function () {
+      sinon.stub(productsModel, "insert").resolves([{ insertId: 1 }]);
+      sinon.stub(productsModel, "getById").resolves(allProductsResponse[0]);
+
+      const result = await productsService.addNewProduct(productId);
+      expect(result.type).to.equal("MISSING_FIELD");
+      expect(result.message).to.equal('"name" is required');
+    });
+
     it("addNewProduct - INVALID_VALUE - 'name' length must be at least 5 characters long", async function () {
       const result = await productsService.addNewProduct(wrongSizeProductBody);
       expect(result.type).to.equal("INVALID_VALUE");
@@ -80,31 +91,43 @@ describe("Unit tests - products.service", function () {
     });
   });
 
-  // describe("PUT /product/:id", function () {
-    // it("update - Successfully", async function () {
-    //   sinon.stub(productsModel, "update").resolves([productUpdateBody]);
+  describe("PUT /product/:id", function () {
+    it("update - Successfully", async function () {
+      sinon.stub(productsModel, "update").resolves({ affectedRows: 1 });
+      sinon.stub(productsModel, "getById").resolves(allProductsResponse[0]);
+      console.log({ affectedRows: 1 });
 
-    //   const result = await productsService.update(productUpdateBody);
-    //   expect(result.type).to.equal(null);
-    //   expect(result.message).to.equal(productUpdateResponse);
-    // });
+      const result = await productsService.update(productUpdateResponse);
+      
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(productUpdateResponse);
+    });
 
-  //   it("update - NOT_FOUND - Product not found", async function () {
-  //     sinon.stub(productsModel, "update").resolves(undefined);
-  //     sinon.stub(productsModel, "getById").resolves(undefined);
+    it("update - NOT_FOUND - Product not found", async function () {
+      sinon.stub(productsModel, "update").resolves(undefined);
+      sinon.stub(productsModel, "getById").resolves(undefined);
 
-  //     const result = await productsService.update(invalidId);
-  //     expect(result.type).to.equal("NOT_FOUND");
-  //     expect(result.message).to.equal("Product not found");
-  //   });
+      const result = await productsService.update(productUpdateInvalideId);
+      expect(result.type).to.equal("NOT_FOUND");
+      expect(result.message).to.equal("Product not found");
+    });
 
-  //   it("update - INVALID_VALUE - name length must be at least 5 characters long", async function () {
-  //     const result = await productsService.update(wrongSizeProductBody);
-  //     expect(result.message).to.equal(
-  //       '"name" length must be at least 5 characters long'
-  //     );
-  //   });
-  // });
+    it("update - MISSING_FIELD - 'name' is required", async function () {
+      sinon.stub(productsModel, "update").resolves({ affectedRows: 1 });
+      sinon.stub(productsModel, "getById").resolves(allProductsResponse[0]);
+
+      const result = await productsService.update(productId);
+      expect(result.type).to.equal("MISSING_FIELD");
+      expect(result.message).to.equal('"name" is required');
+    });
+
+    it("update - INVALID_VALUE - name length must be at least 5 characters long", async function () {
+      const result = await productsService.update(wrongSizeProductBody);
+      expect(result.message).to.equal(
+        '"name" length must be at least 5 characters long'
+      );
+    });
+  });
 
   describe("DELETE /product/:id", function () {
     it("remove - Successfully", async function () {

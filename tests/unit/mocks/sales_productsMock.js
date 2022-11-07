@@ -36,8 +36,10 @@ const updateSalesBody = [
   },
 ];
 
+const saleId = 1;
+
 const updatedSaleResponse = {
-  saleId: "1",
+  saleId: 1,
   itemsUpdated: [
     {
       productId: 1,
@@ -69,6 +71,7 @@ const formattedSale = [{ saleId: 1, productId: 1, quantity: 5 }];
 
 module.exports = {
   invalidId,
+  saleId,
   allSalesProducts,
   updateSalesBody,
   updatedSaleResponse,

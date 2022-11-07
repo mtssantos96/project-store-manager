@@ -1,7 +1,9 @@
 /*-------------------------- Products --------------------------*/
 const wrongProductBody = {};
 
-const wrongSizeProductBody = { name: "Prod" };
+const productId = { id: 1 }
+
+const wrongSizeProductBody = { id: 1, name: "Prod" };
 
 const invalidId = 99;
 
@@ -19,6 +21,8 @@ const productUpdateBody = { name: "Machado do Thor Stormbreaker" };
 
 const productUpdateResponse = { id: 1, name: "Machado do Thor Stormbreaker" };
 
+const productUpdateInvalideId = { id: 99, name: "Machado do Thor Stormbreaker" };
+
 const productUpdateExistsNameBody = { name: "Martelo de Thor" };
 
 const productSearchNameResponse = [{ id: 1, name: "Martelo de Thor" }];
@@ -34,4 +38,6 @@ module.exports = {
   productUpdateResponse,
   productUpdateExistsNameBody,
   productSearchNameResponse,
+  productUpdateInvalideId,
+  productId,
 };

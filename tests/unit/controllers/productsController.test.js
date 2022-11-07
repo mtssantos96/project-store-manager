@@ -12,6 +12,7 @@ const {
   productUpdateBody,
   productUpdateResponse,
   productSearchNameResponse,
+  wrongSizeProductBody,
 } = require("../mocks/productsMock");
 
 const { productsService } = require("../../../src/services");
@@ -149,6 +150,7 @@ describe("Unit tests - products.controller", function () {
       });
     });
   });
+    
 
   describe("PUT /product/:id", function () {
     it("update - Successfully", async function () {
@@ -170,11 +172,33 @@ describe("Unit tests - products.controller", function () {
       expect(res.json).to.have.been.calledWith(productUpdateResponse);
     });
 
+    it("update - INVALID_VALUE - name length must be at least 5 characters long", async function () {
+      const res = {};
+      const req = {
+        body: { ...wrongSizeProductBody },
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, "update").resolves({
+        type: "MISSING_FIELD",
+        message: '"name" length must be at least 5 characters long',
+      });
+
+      await productsController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({
+        message: '"name" length must be at least 5 characters long',
+      });
+    });
+
     it("update - NOT_FOUND - Product not found", async function () {
       const res = {};
       const req = {
         body: { ...productUpdateBody },
-        params: { id: invalidId },
+        params: { id: 1 },
       };
 
       res.status = sinon.stub().returns(res);

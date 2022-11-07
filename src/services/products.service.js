@@ -55,10 +55,7 @@ async function remove(id) {
 
 async function search(name) {
   const products = await productsModel.search(name);
-  if (products) {
-    return { type: null, message: products };
-  }
-  return { type: 'NOT_FOUND', message: 'Product not found' };
+  return { type: null, message: products };
 }
 
 module.exports = {
