@@ -53,10 +53,19 @@ async function remove(id) {
   return { type: 'NOT_FOUND', message: 'Product not found' };
 }
 
+async function search(name) {
+  const products = await productsModel.search(name);
+  if (products) {
+    return { type: null, message: products };
+  }
+  return { type: 'NOT_FOUND', message: 'Product not found' };
+}
+
 module.exports = {
   getAll,
   getById,
   addNewProduct,
   update,
   remove,
+  search,
 };

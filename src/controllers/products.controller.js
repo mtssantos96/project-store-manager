@@ -46,10 +46,22 @@ async function remove(req, res) {
   return res.status(204).end();
 }
 
+async function search(req, res) {
+  const { q } = req.query;
+  if (q) {
+    const { message } = await productsService.search(q);
+    res.status(200).json(message);
+  } else {
+    const { message } = await productsService.getAll();
+    res.status(200).json(message);
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   addNewProduct,
   update,
   remove,
+  search,
 };
