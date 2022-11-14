@@ -17,7 +17,8 @@ git clone git@github.com:mtssantos96/project-store-manager.git
 ```
 
 <summary><strong>🐳 Rodando no Docker:</strong></summary>
-- Primeiro fazermos a execução do <strong>docker-compose</strong>;
+
+- Primeiro fazermos a execução do `docker-compose`;
 
 ```bash
 docker-compose up -d
