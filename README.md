@@ -16,9 +16,23 @@ A API construída é um sistema de gerenciamento de vendas no formato dropshippi
 git clone git@github.com:mtssantos96/project-store-manager.git
 ```
 
-<summary><strong>Instale as dependências:</strong></strong></summary>
+<summary><strong>🐳 Rodando no Docker:</strong></summary>
+- Primeiro fazermos a execução do <strong>docker-compose</strong>;
+
+```bash
+docker-compose up -d
+```
+
+- Esse comando ira inicializar um container chamado `store_manager` e outro chamado `store_manager_db`;
+
+- Acesse o terminal interativo do container `store_manager`:
+
+```bash
+docker exec -it store_manager bash
+```
+
+- Instale as `dependências`:
 
 ```bash
 npm install
 ```
-<!-- <summary><strong>🐳 Rodando com Docker</strong></summary> -->
