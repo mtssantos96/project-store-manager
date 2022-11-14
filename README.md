@@ -37,3 +37,11 @@ docker exec -it store_manager bash
 ```bash
 npm install
 ```
+
+- Inicie a aplicação:
+
+```bash
+npm run debug
+```
+
+<summary><strong>Pronto, agora você pode fazer requisições a minha API e ver como ela funciona 😉, boa sorte!</strong></summary>
